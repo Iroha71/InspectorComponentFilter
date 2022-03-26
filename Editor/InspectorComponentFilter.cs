@@ -57,6 +57,8 @@ namespace InspectorComponentFilter {
         }
 
         private void SwitchComponent(Component component, HideFlags flags) {
+            if (!component)
+                return;
             if (component.hideFlags == flags)
                 return;
             component.hideFlags = flags;
