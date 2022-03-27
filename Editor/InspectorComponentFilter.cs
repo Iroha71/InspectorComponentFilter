@@ -17,9 +17,7 @@ namespace InspectorComponentFilter {
 
         private void OnGUI() {
             if (instanceId != Selection.activeInstanceID) {
-                foreach (string key in components.Keys) {
-                    SwitchComponent(components[key], HideFlags.None);
-                }
+                ChangeHideFlags(components, HideFlags.None);
                 instanceId = Selection.activeInstanceID;
                 target = Selection.activeGameObject;
             }
@@ -41,18 +39,22 @@ namespace InspectorComponentFilter {
                     }
                 } else if (string.IsNullOrEmpty(filter)) {
                     foreach (string key in components.Keys) {
-                        SwitchComponent(components[key], HideFlags.None);
+                        ChangeHideFlags(components, HideFlags.None);
                     }
                 }
                 GUI.FocusControl("filterField");
                 GUI.enabled = !string.IsNullOrEmpty(filter);
                 if (GUILayout.Button("Clear", "SearchCancelButton")) {
                     filter = string.Empty;
-                    foreach (string key in components.Keys) {
-                        SwitchComponent(components[key], HideFlags.None);
-                    }
+                    ChangeHideFlags(components, HideFlags.HideInInspector);
                 }
                 GUI.enabled = true;
+            }
+        }
+
+        private void ChangeHideFlags(Dictionary<string, Component> components, HideFlags hideFlags, Dictionary<string, Component> matchedComponents=null) {
+            foreach (string key in components.Keys) {
+                SwitchComponent(components[key], hideFlags);
             }
         }
 
@@ -75,9 +77,7 @@ namespace InspectorComponentFilter {
         }
 
         private void OnDestroy() {
-            foreach (string key in components.Keys) {
-                SwitchComponent(components[key], HideFlags.None);
-            }
+            ChangeHideFlags(components, HideFlags.None);
         }
     }
 }
