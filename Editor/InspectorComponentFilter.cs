@@ -12,7 +12,7 @@ namespace InspectorComponentFilter {
         private int instanceId;
         [MenuItem("Tools/InspectorComponentFilter")]
         private static void Init() {
-            GetWindow<InspectorComponentFilter>();
+            GetWindow<InspectorComponentFilter>("Search Component");
         }
 
         private void OnGUI() {
